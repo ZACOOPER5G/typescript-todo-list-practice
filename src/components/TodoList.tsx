@@ -3,19 +3,19 @@ import { Accordion, Button, Form } from 'react-bootstrap';
 import { TodoItems } from './TodoItems';
 
 export const TodoList = () => {
-  const [todoList, setTodoList] = useState([])
+  const [todoList, setTodoList] = useState<Array<TodoProps>>([])
 
   type TodoProps = {
     title: string;
     notes: string;
 }
 
-const todoInitialValue: TodoProps = {
+const todoInitialValue = {
     title: '',
     notes: '',
 }
 
-const [todo, setTodo] = useState(todoInitialValue)
+const [todo, setTodo] = useState<TodoProps>(todoInitialValue)
 
 const onFormUpdate = (category: string, value: string) => {
     setTodo({
@@ -26,8 +26,9 @@ const onFormUpdate = (category: string, value: string) => {
 
 const handleSubmit = (e: any) => {
     e.preventDefault();
-    const newTodoList: string[] = [todo, ...todoList]
+    const newTodoList = [...todoList, todo]
     setTodoList(newTodoList)
+    console.log(todoList)
     setTodo(todoInitialValue)
 }
 
@@ -45,11 +46,11 @@ const handleSubmit = (e: any) => {
         <Button type="submit" className="mb-3">Add Todo Item</Button>
     </Form>
       <Accordion> 
-      {/* {
-          todoList.map((key, title, notes) => {
-              return <TodoItems key={key} title={title} notes={notes} {...todoList} />
+      {
+          todoList.map((item) => {
+              return <TodoItems key={todoList.indexOf(item).toString()} title={item.title} notes={item.notes} {...todoList} />
           })
-      } */}
+      }
       </Accordion>
     </>
   );
