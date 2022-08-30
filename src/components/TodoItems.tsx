@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { Accordion, Button, CloseButton } from 'react-bootstrap'
+import { Accordion, CloseButton } from 'react-bootstrap'
 
 type TodoItemsProps = {
     key: string;
     title: string;
     notes: string;
-    onClick: () => void;
+    removeTodo: (title: string) => void;
 }
 
-export const TodoItems = ({ key, title, notes, onClick }: TodoItemsProps) => {
+export const TodoItems = ({ key, title, notes, removeTodo }: TodoItemsProps) => {
 
   const [active, setActive] = useState<Boolean>(true)
 
@@ -19,8 +19,8 @@ export const TodoItems = ({ key, title, notes, onClick }: TodoItemsProps) => {
 
   return (
       <Accordion>
-        <Accordion.Item  eventKey={key} key={key} className='d-flex justify-content-between align-items-center pe-4'>
-          <Accordion.Header className={active ? 'active' : 'not-active'} onClick={toggleActive} >{title}</Accordion.Header>{!active && <CloseButton onClick={onClick} />}
+        <Accordion.Item  eventKey={key} className='d-flex justify-content-between align-items-center pe-4'>
+          <Accordion.Header className={active ? 'active' : 'not-active'} onClick={toggleActive} >{title}</Accordion.Header>{!active && <CloseButton onClick={() => removeTodo(title)} />}
             <Accordion.Body>
                 {notes}
             </Accordion.Body>

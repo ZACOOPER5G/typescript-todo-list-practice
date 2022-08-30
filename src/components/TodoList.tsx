@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Accordion, Button, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { TodoItems } from './TodoItems';
 
 export const TodoList = () => {
@@ -8,29 +8,34 @@ export const TodoList = () => {
   type TodoProps = {
     title: string;
     notes: string;
-}
+  }
 
-const todoInitialValue = {
-    title: '',
-    notes: '',
-}
+  const todoInitialValue = {
+      title: '',
+      notes: '',
+  }
 
-const [todo, setTodo] = useState<TodoProps>(todoInitialValue)
+  const [todo, setTodo] = useState<TodoProps>(todoInitialValue)
 
-const onFormUpdate = (category: string, value: string) => {
-    setTodo({
-        ...todo,
-        [category]: value
-    })
-};
+  const onFormUpdate = (category: string, value: string) => {
+      setTodo({
+          ...todo,
+          [category]: value
+      })
+  };
 
-const handleSubmit = (e: any) => {
-    e.preventDefault();
-    const newTodoList = [...todoList, todo]
-    setTodoList(newTodoList)
-    console.log(todoList)
-    setTodo(todoInitialValue)
-}
+  const handleSubmit = (e: any) => {
+      e.preventDefault();
+      const newTodoList = [...todoList, todo]
+      setTodoList(newTodoList)
+      setTodo(todoInitialValue)
+  }
+
+  const removeTodo = (title: string) => {
+        setTodoList(todoList.filter(obj => {
+          return title !== obj.title
+        }))
+  }
 
   return (
     <>
@@ -45,13 +50,11 @@ const handleSubmit = (e: any) => {
         </Form.Group>
         <Button type="submit" className="mb-3">Add Todo Item</Button>
     </Form>
-      <Accordion> 
       {
           todoList.map((item) => {
-              return <TodoItems key={todoList.indexOf(item).toString()} title={item.title} notes={item.notes} {...todoList} />
+              return <TodoItems key={todoList.indexOf(item).toString()} title={item.title} notes={item.notes} removeTodo={removeTodo} {...todoList} />
           })
       }
-      </Accordion>
     </>
   );
 }
